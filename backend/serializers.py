@@ -31,6 +31,14 @@ class ProductPriceSerializer(ModelSerializer):
         model = ProductPrice
         fields = '__all__'
 
+class ViewProductPriceSerializer(ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    heat = HeatLevelSerializer(read_only=True)
+
+    class Meta:
+        model = ProductPrice
+        fields = '__all__'
+
 
 class OrderDetailSerializer(ModelSerializer):
 

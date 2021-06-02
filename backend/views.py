@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import ProductTypeSerializer, HeatLevelSerializer, ProductSerializer,\
     ProductPriceSerializer, OrderDetailSerializer, CoffeeToppingSerializer, TeaToppingSerializer,\
     SweetLevelSerializer, OrderSerializer, MemberSerializer, SessionStatusSerializer, SessionSerializer,\
-    PointSerializer, PromotionSerializer
+    PointSerializer, PromotionSerializer, ViewProductPriceSerializer
 
 from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail, CoffeeTopping, \
     TeaTopping, SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion
@@ -27,8 +27,11 @@ class ProductViewSet(ModelViewSet):
 class ProductPriceViewSet(ModelViewSet):
     queryset = ProductPrice.objects.order_by('pk')
     serializer_class = ProductPriceSerializer
-
-
+#------------------------------
+class ViewProductPriceViewSet(ModelViewSet):
+    queryset = ProductPrice.objects.order_by('pk')
+    serializer_class = ViewProductPriceSerializer
+#------------------------------
 class OrderDetailViewSet(ModelViewSet):
     queryset = OrderDetail.objects.order_by('pk')
     serializer_class = OrderDetailSerializer

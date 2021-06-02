@@ -18,6 +18,7 @@ class HeatLevel(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255)
+    img = models.FileField(upload_to='images/', null=True, blank=True, verbose_name="Image")
     type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
 
     def __str__(self):
