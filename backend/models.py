@@ -34,6 +34,7 @@ class ProductPrice(models.Model):
 
 class OrderDetailType(models.Model):
     name = models.CharField(max_length=255)
+    type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}'.format(self.name)
