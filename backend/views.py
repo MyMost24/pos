@@ -1,13 +1,21 @@
 from rest_framework.viewsets import ModelViewSet
 
 from .serializers import ProductTypeSerializer, HeatLevelSerializer, ProductSerializer,\
-    ProductPriceSerializer, OrderDetailSerializer, CoffeeToppingSerializer, TeaToppingSerializer,\
-    SweetLevelSerializer, OrderSerializer, MemberSerializer, SessionStatusSerializer, SessionSerializer,\
+    ProductPriceSerializer, OrderDetailSerializer, SweetLevelSerializer, OrderSerializer,\
+    MemberSerializer, SessionStatusSerializer, SessionSerializer, OrderDetailTypeSerializer, \
     PointSerializer, PromotionSerializer, ViewProductPriceSerializer
 
-from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail, CoffeeTopping, \
-    TeaTopping, SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion
+from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail,  \
+     SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion, OrderDetailType
 
+from rest_framework import generics, filters
+from django_filters.rest_framework import DjangoFilterBackend
+
+class ViewProductPriceViewSet(ModelViewSet):
+    queryset = ProductPrice.objects.order_by('pk')
+    serializer_class = ViewProductPriceSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['product',]
 
 class ProductTypeViewSet(ModelViewSet):
     queryset = ProductType.objects.order_by('pk')
@@ -27,24 +35,18 @@ class ProductViewSet(ModelViewSet):
 class ProductPriceViewSet(ModelViewSet):
     queryset = ProductPrice.objects.order_by('pk')
     serializer_class = ProductPriceSerializer
-#------------------------------
-class ViewProductPriceViewSet(ModelViewSet):
-    queryset = ProductPrice.objects.order_by('pk')
-    serializer_class = ViewProductPriceSerializer
-#------------------------------
+
+
+class OrderDetailTypeViewSet(ModelViewSet):
+    queryset = OrderDetailType.objects.order_by('pk')
+    serializer_class = OrderDetailTypeSerializer
+
+
+
 class OrderDetailViewSet(ModelViewSet):
     queryset = OrderDetail.objects.order_by('pk')
     serializer_class = OrderDetailSerializer
 
-
-class CoffeeToppingViewSet(ModelViewSet):
-    queryset = CoffeeTopping.objects.order_by('pk')
-    serializer_class = CoffeeToppingSerializer
-
-
-class TeaToppingViewSet(ModelViewSet):
-    queryset = TeaTopping.objects.order_by('pk')
-    serializer_class = TeaToppingSerializer
 
 
 class SweetLevelViewSet(ModelViewSet):

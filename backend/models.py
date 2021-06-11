@@ -32,18 +32,20 @@ class ProductPrice(models.Model):
     def __str__(self):
         return  '{},{}'.format(self.product.name, self.heat.name)
 
-
-class OrderDetail(PolymorphicModel):
+class OrderDetailType(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return '{}'.format(self.name)
 
-class CoffeeTopping(OrderDetail):
+class OrderDetail(models.Model):
+    name = models.CharField(max_length=255)
     price = models.IntegerField()
+    detail = models.ForeignKey(OrderDetailType, on_delete=models.CASCADE)
 
-class TeaTopping(OrderDetail):
-    price = models.IntegerField()
+    def __str__(self):
+        return '{}'.format(self.name)
+
 
 class SweetLevel(models.Model):
     name = models.CharField(max_length=255)
@@ -56,6 +58,7 @@ class Order(models.Model):
     detail = models.ManyToManyField(OrderDetail, null=True, blank=True)
     sweetlevel = models.ForeignKey(SweetLevel, on_delete=models.CASCADE, null=True, blank=True)
     total_price = models.IntegerField()
+
 
 class Member(models.Model):
     name = models.CharField(max_length=255)
@@ -83,7 +86,7 @@ class Point(models.Model):
 
 class Promotion(models.Model):
     title = models.CharField(max_length=255)
-    description = models.TextField(max_length=5000)
+    description = models.TextField(max_length=5000, null=True, blank=True)
     score = models.IntegerField()
 
     def __str__(self):

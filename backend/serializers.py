@@ -1,7 +1,7 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail, CoffeeTopping, TeaTopping,\
-    SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion
+from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail, \
+    SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion, OrderDetailType
 
 
 class ProductTypeSerializer(ModelSerializer):
@@ -32,11 +32,23 @@ class ProductPriceSerializer(ModelSerializer):
         fields = '__all__'
 
 class ViewProductPriceSerializer(ModelSerializer):
-    product = ProductSerializer(read_only=True)
-    heat = HeatLevelSerializer(read_only=True)
-
+    # product = ProductSerializer(read_only=True)
+    # heat = HeatLevelSerializer(read_only=True)
+    named = SerializerMethodField()
     class Meta:
         model = ProductPrice
+        fields = '__all__'
+    def get_named(self,obj):
+        try:
+            heat = HeatLevel.objects.get(id=obj.heat_id)
+            return heat.name
+        except:
+            return None
+
+class OrderDetailTypeSerializer(ModelSerializer):
+
+    class Meta:
+        model = OrderDetailType
         fields = '__all__'
 
 
@@ -46,19 +58,6 @@ class OrderDetailSerializer(ModelSerializer):
         model = OrderDetail
         fields = '__all__'
 
-
-class CoffeeToppingSerializer(ModelSerializer):
-
-    class Meta:
-        model = CoffeeTopping
-        fields = '__all__'
-
-
-class TeaToppingSerializer(ModelSerializer):
-
-    class Meta:
-        model = TeaTopping
-        fields = '__all__'
 
 
 class SweetLevelSerializer(ModelSerializer):

@@ -1,30 +1,15 @@
 from django.contrib import admin
 
 from .models import ProductType, Member, SessionStatus, Session, Point, Promotion,\
-    OrderDetail, CoffeeTopping, TeaTopping, SweetLevel, Order, HeatLevel, Product, ProductPrice
+    OrderDetail,OrderDetailType , SweetLevel, Order, HeatLevel, Product, ProductPrice
 
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
 
 # Register your models here.
 
-class ProductDetailChildAdmin(PolymorphicChildModelAdmin):
-
-    base_model = OrderDetail
 
 
-@admin.register(CoffeeTopping)
-class ToppingAdmin(ProductDetailChildAdmin):
-    base_model = CoffeeTopping\
 
-@admin.register(TeaTopping)
-class ToppingAdmin(ProductDetailChildAdmin):
-    base_model = TeaTopping
-
-
-@admin.register(OrderDetail)
-class ProductDetailAdmin(PolymorphicParentModelAdmin):
-    base_model = OrderDetail
-    child_models = (CoffeeTopping, TeaTopping)
 
 class OrderAdmin(admin.ModelAdmin):
     filter_horizontal = ['detail']
@@ -34,6 +19,8 @@ class SessionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Order, OrderAdmin)
+admin.site.register(OrderDetail)
+admin.site.register(OrderDetailType)
 admin.site.register(Member)
 admin.site.register(SweetLevel)
 admin.site.register(SessionStatus)
