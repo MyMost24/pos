@@ -46,7 +46,8 @@ class OrderDetailTypeViewSet(ModelViewSet):
 class OrderDetailViewSet(ModelViewSet):
     queryset = OrderDetail.objects.order_by('pk')
     serializer_class = OrderDetailSerializer
-
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['detail',]
 
 
 class SweetLevelViewSet(ModelViewSet):

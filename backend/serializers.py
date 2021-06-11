@@ -55,10 +55,17 @@ class OrderDetailTypeSerializer(ModelSerializer):
 
 class OrderDetailSerializer(ModelSerializer):
 
+    named = SerializerMethodField()
     class Meta:
         model = OrderDetail
         fields = '__all__'
 
+    def get_named(self,obj):
+        try:
+            type = OrderDetailType.objects.get(id=obj.type_id)
+            return type.name
+        except:
+            return None
 
 
 class SweetLevelSerializer(ModelSerializer):
