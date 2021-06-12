@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail, \
-    SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion, OrderDetailType
+    SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion
 
 
 class ProductTypeSerializer(ModelSerializer):
@@ -45,12 +45,6 @@ class ViewProductPriceSerializer(ModelSerializer):
         except:
             return None
 
-class OrderDetailTypeSerializer(ModelSerializer):
-
-    class Meta:
-        model = OrderDetailType
-        fields = '__all__'
-
 
 
 class OrderDetailSerializer(ModelSerializer):
@@ -62,7 +56,7 @@ class OrderDetailSerializer(ModelSerializer):
 
     def get_named(self,obj):
         try:
-            type = OrderDetailType.objects.get(id=obj.type_id)
+            type = ProductType.objects.get(id=obj.type_id)
             return type.name
         except:
             return None

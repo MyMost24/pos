@@ -5,9 +5,9 @@ from polymorphic.models import PolymorphicModel
 
 
 class ProductType(models.Model):
-    title = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
     def __str__(self):
-        return '{}'.format(self.title)
+        return '{}'.format(self.name)
 
 
 class HeatLevel(models.Model):
@@ -32,17 +32,11 @@ class ProductPrice(models.Model):
     def __str__(self):
         return  '{},{}'.format(self.product.name, self.heat.name)
 
-class OrderDetailType(models.Model):
-    name = models.CharField(max_length=255)
-    type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{}'.format(self.name)
 
 class OrderDetail(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
-    detail = models.ForeignKey(OrderDetailType, on_delete=models.CASCADE)
+    type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
 
     def __str__(self):
         return '{}'.format(self.name)

@@ -2,11 +2,11 @@ from rest_framework.viewsets import ModelViewSet
 
 from .serializers import ProductTypeSerializer, HeatLevelSerializer, ProductSerializer,\
     ProductPriceSerializer, OrderDetailSerializer, SweetLevelSerializer, OrderSerializer,\
-    MemberSerializer, SessionStatusSerializer, SessionSerializer, OrderDetailTypeSerializer, \
+    MemberSerializer, SessionStatusSerializer, SessionSerializer, \
     PointSerializer, PromotionSerializer, ViewProductPriceSerializer
 
 from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail,  \
-     SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion, OrderDetailType
+     SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion
 
 from rest_framework import generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
@@ -37,17 +37,12 @@ class ProductPriceViewSet(ModelViewSet):
     serializer_class = ProductPriceSerializer
 
 
-class OrderDetailTypeViewSet(ModelViewSet):
-    queryset = OrderDetailType.objects.order_by('pk')
-    serializer_class = OrderDetailTypeSerializer
-
-
 
 class OrderDetailViewSet(ModelViewSet):
     queryset = OrderDetail.objects.order_by('pk')
     serializer_class = OrderDetailSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filterset_fields = ['detail',]
+    filterset_fields = ['type',]
 
 
 class SweetLevelViewSet(ModelViewSet):
