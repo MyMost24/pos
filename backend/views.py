@@ -2,20 +2,15 @@ from rest_framework.viewsets import ModelViewSet
 
 from .serializers import ProductTypeSerializer, HeatLevelSerializer, ProductSerializer,\
     ProductPriceSerializer, OrderDetailSerializer, SweetLevelSerializer, OrderSerializer,\
-    MemberSerializer, SessionStatusSerializer, SessionSerializer, \
-    PointSerializer, PromotionSerializer, ViewProductPriceSerializer
+    MemberSerializer, SessionStatusSerializer, SessionSerializer, ViewOrderSerializer, ViewSessionViewSet
 
 from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail,  \
-     SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion
+     SweetLevel, Order, Member, SessionStatus, Session
 
 from rest_framework import generics, filters
 from django_filters.rest_framework import DjangoFilterBackend
 
-class ViewProductPriceViewSet(ModelViewSet):
-    queryset = ProductPrice.objects.order_by('pk')
-    serializer_class = ViewProductPriceSerializer
-    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filterset_fields = ['product',]
+
 
 class ProductTypeViewSet(ModelViewSet):
     queryset = ProductType.objects.order_by('pk')
@@ -30,11 +25,14 @@ class HeatLevelViewSet(ModelViewSet):
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.order_by('pk')
     serializer_class = ProductSerializer
-
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['type', ]
 
 class ProductPriceViewSet(ModelViewSet):
     queryset = ProductPrice.objects.order_by('pk')
     serializer_class = ProductPriceSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['product', ]
 
 
 
@@ -58,6 +56,8 @@ class OrderViewSet(ModelViewSet):
 class MemberViewSet(ModelViewSet):
     queryset = Member.objects.order_by('pk')
     serializer_class = MemberSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['phone', ]
 
 
 class SessionStatusViewSet(ModelViewSet):
@@ -70,11 +70,12 @@ class SessionViewSet(ModelViewSet):
     serializer_class = SessionSerializer
 
 
-class PointViewSet(ModelViewSet):
-    queryset = Point.objects.order_by('pk')
-    serializer_class = PointSerializer
+#------------------- View --------------------
 
+class ViewOrderViewSet(ModelViewSet):
+    queryset = Order.objects.order_by('pk')
+    serializer_class = ViewOrderSerializer
 
-class PromotionViewSet(ModelViewSet):
-    queryset = Promotion.objects.order_by('pk')
-    serializer_class = PromotionSerializer
+class ViewSessionViewSet(ModelViewSet):
+    queryset = Session.objects.order_by('pk')
+    serializer_class = ViewSessionViewSet

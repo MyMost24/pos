@@ -36,7 +36,7 @@ class ProductPrice(models.Model):
 class OrderDetail(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
-    type = models.ForeignKey(ProductType, on_delete=models.CASCADE)
+    type = models.ManyToManyField(ProductType, null=True, blank=True)
 
     def __str__(self):
         return '{}'.format(self.name)
@@ -48,12 +48,6 @@ class SweetLevel(models.Model):
     def __str__(self):
         return '{}'.format(self.name)
 
-class Order(models.Model):
-    product = models.ForeignKey(ProductPrice, on_delete=models.CASCADE)
-    detail = models.ManyToManyField(OrderDetail, null=True, blank=True)
-    sweetlevel = models.ForeignKey(SweetLevel, on_delete=models.CASCADE, null=True, blank=True)
-    total_price = models.IntegerField()
-
 
 class Member(models.Model):
     name = models.CharField(max_length=255)
@@ -62,27 +56,31 @@ class Member(models.Model):
     def __str__(self):
         return '{},{}'.format(self.name, self.phone)
 
+class Order(models.Model):
+    product = models.ForeignKey(ProductPrice, on_delete=models.CASCADE)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    count = models.IntegerField()
+    voucher = models.IntegerField(default=0)
+    detail = models.ManyToManyField(OrderDetail, null=True, blank=True)
+    sweetlevel = models.ForeignKey(SweetLevel, on_delete=models.CASCADE, null=True, blank=True)
+    total_price = models.IntegerField()
+    create_at = models.DateTimeField(auto_now_add=True)
+
+
 class SessionStatus(models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
         return '{}'.format(self.name)
 
+
+DEFAULT_MEMBER_ID = 1
 class Session(models.Model):
-    order = models.ManyToManyField(Order)
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
+    order = models.ManyToManyField(Order, blank=True, null=True)
+    member = models.ForeignKey(Member, on_delete=models.CASCADE, default=DEFAULT_MEMBER_ID)
     status = models.ForeignKey(SessionStatus, on_delete=models.CASCADE)
+    start_at = models.DateTimeField(null=True, blank=True)
+    end_at = models.DateTimeField(null=True, blank=True)
+    close_at = models.DateTimeField(null=True, blank=True)
+    create_at = models.DateTimeField(auto_now_add=True)
 
-
-class Point(models.Model):
-    member = models.ForeignKey(Member, on_delete=models.CASCADE)
-    point = models.IntegerField()
-
-
-class Promotion(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField(max_length=5000, null=True, blank=True)
-    score = models.IntegerField()
-
-    def __str__(self):
-        return '{}'.format(self.title)

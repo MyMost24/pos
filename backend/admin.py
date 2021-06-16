@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ProductType, Member, SessionStatus, Session, Point, Promotion,\
+from .models import ProductType, Member, SessionStatus, Session,\
     OrderDetail , SweetLevel, Order, HeatLevel, Product, ProductPrice
 
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin
@@ -14,16 +14,16 @@ class OrderAdmin(admin.ModelAdmin):
 class SessionAdmin(admin.ModelAdmin):
     filter_horizontal = ['order']
 
+class OrderDetailAdmin(admin.ModelAdmin):
+    filter_horizontal = ['type']
+
 
 admin.site.register(Order, OrderAdmin)
-admin.site.register(OrderDetail)
+admin.site.register(OrderDetail, OrderDetailAdmin)
 admin.site.register(Member)
 admin.site.register(SweetLevel)
 admin.site.register(SessionStatus)
 admin.site.register(Session, SessionAdmin)
-admin.site.register(Point)
-admin.site.register(Promotion)
-
 admin.site.register(HeatLevel)
 admin.site.register(ProductType)
 admin.site.register(ProductPrice)

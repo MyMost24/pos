@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail, \
-    SweetLevel, Order, Member, SessionStatus, Session, Point, Promotion
+    SweetLevel, Order, Member, SessionStatus, Session
 
 
 class ProductTypeSerializer(ModelSerializer):
@@ -26,25 +26,26 @@ class ProductSerializer(ModelSerializer):
 
 
 class ProductPriceSerializer(ModelSerializer):
-
+    heat_named = SerializerMethodField()
+    product_named = SerializerMethodField()
     class Meta:
         model = ProductPrice
         fields = '__all__'
 
-class ViewProductPriceSerializer(ModelSerializer):
-    # product = ProductSerializer(read_only=True)
-    # heat = HeatLevelSerializer(read_only=True)
-    named = SerializerMethodField()
-    class Meta:
-        model = ProductPrice
-        fields = '__all__'
-    def get_named(self,obj):
+    def get_product_named(self, obj):
+        try:
+            product = Product.objects.get(id=obj.product_id)
+            return product.name
+        except:
+            return None
+
+
+    def get_heat_named(self, obj):
         try:
             heat = HeatLevel.objects.get(id=obj.heat_id)
             return heat.name
         except:
             return None
-
 
 
 class OrderDetailSerializer(ModelSerializer):
@@ -82,6 +83,13 @@ class MemberSerializer(ModelSerializer):
         model = Member
         fields = '__all__'
 
+    def get_phone(self,obj):
+        try:
+            phone = Member.objects.get(id=obj.phone_member)
+            return phone.name
+        except:
+            return None
+
 
 class SessionStatusSerializer(ModelSerializer):
 
@@ -97,15 +105,23 @@ class SessionSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class PointSerializer(ModelSerializer):
+#---------------view--------------------------
+
+
+class ViewOrderSerializer(ModelSerializer):
+    product = ProductPriceSerializer(read_only=True)
+    detail = OrderDetailSerializer(read_only=True, many=True)
+    sweetlevel = SweetLevelSerializer(read_only=True)
 
     class Meta:
-        model = Point
+        model = Order
         fields = '__all__'
 
 
-class PromotionSerializer(ModelSerializer):
+class ViewSessionViewSet(ModelSerializer):
+    member = MemberSerializer(read_only=True)
+    order = ViewOrderSerializer(read_only=True, many=True)
 
     class Meta:
-        model = Promotion
+        model = Session
         fields = '__all__'
