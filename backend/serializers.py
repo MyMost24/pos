@@ -50,7 +50,6 @@ class ProductPriceSerializer(ModelSerializer):
 
 class OrderDetailSerializer(ModelSerializer):
 
-    named = SerializerMethodField()
     class Meta:
         model = OrderDetail
         fields = '__all__'
@@ -113,6 +112,8 @@ class ViewProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
 
 class ViewOrderDetailSerializer(ModelSerializer):
     type = ProductTypeSerializer(read_only=True, many=True)
