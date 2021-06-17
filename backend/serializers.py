@@ -50,7 +50,6 @@ class ProductPriceSerializer(ModelSerializer):
 
 class OrderDetailSerializer(ModelSerializer):
 
-    named = SerializerMethodField()
     class Meta:
         model = OrderDetail
         fields = '__all__'
@@ -107,6 +106,21 @@ class SessionSerializer(ModelSerializer):
 
 #---------------view--------------------------
 
+class ViewProductSerializer(ModelSerializer):
+    type = ProductTypeSerializer(read_only=True)
+
+    class Meta:
+        model = Product
+        fields = '__all__'
+
+
+
+class ViewOrderDetailSerializer(ModelSerializer):
+    type = ProductTypeSerializer(read_only=True, many=True)
+    class Meta:
+        model = OrderDetail
+        fields = '__all__'
+
 
 class ViewOrderSerializer(ModelSerializer):
     product = ProductPriceSerializer(read_only=True)
@@ -118,10 +132,12 @@ class ViewOrderSerializer(ModelSerializer):
         fields = '__all__'
 
 
-class ViewSessionViewSet(ModelSerializer):
+class ViewSessionSerializer(ModelSerializer):
     member = MemberSerializer(read_only=True)
     order = ViewOrderSerializer(read_only=True, many=True)
+    status = SessionStatusSerializer(read_only=True)
 
     class Meta:
         model = Session
         fields = '__all__'
+
