@@ -2,7 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 
 from .serializers import ProductTypeSerializer, HeatLevelSerializer, ProductSerializer,\
     ProductPriceSerializer, OrderDetailSerializer, SweetLevelSerializer, OrderSerializer,\
-    MemberSerializer, SessionStatusSerializer, SessionSerializer, ViewOrderSerializer, ViewSessionViewSet
+    MemberSerializer, SessionStatusSerializer, SessionSerializer, \
+    ViewOrderSerializer, ViewSessionSerializer, ViewProductSerializer, ViewOrderDetailSerializer
 
 from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail,  \
      SweetLevel, Order, Member, SessionStatus, Session
@@ -78,4 +79,13 @@ class ViewOrderViewSet(ModelViewSet):
 
 class ViewSessionViewSet(ModelViewSet):
     queryset = Session.objects.order_by('pk')
-    serializer_class = ViewSessionViewSet
+    serializer_class = ViewSessionSerializer
+
+
+class ViewProductViewSet(ModelViewSet):
+    queryset = Product.objects.order_by('pk')
+    serializer_class = ViewProductSerializer
+
+class ViewOrderDetailViewSet(ModelViewSet):
+    queryset = OrderDetail.objects.order_by('pk')
+    serializer_class = ViewOrderDetailSerializer

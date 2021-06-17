@@ -36,7 +36,7 @@ class ProductPrice(models.Model):
 class OrderDetail(models.Model):
     name = models.CharField(max_length=255)
     price = models.IntegerField()
-    type = models.ManyToManyField(ProductType, null=True, blank=True)
+    type = models.ManyToManyField(ProductType)
 
     def __str__(self):
         return '{}'.format(self.name)

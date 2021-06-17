@@ -18,6 +18,8 @@ router.register(r'session', views.SessionViewSet)
 
 router.register(r'vieworder', views.ViewOrderViewSet)
 router.register(r'viewsession', views.ViewSessionViewSet)
+router.register(r'viewproduct', views.ViewProductViewSet)
+router.register(r'vieworderdetail', views.ViewOrderDetailViewSet)
 
 
 
