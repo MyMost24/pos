@@ -33,7 +33,7 @@ class ProductPriceViewSet(ModelViewSet):
     queryset = ProductPrice.objects.order_by('pk')
     serializer_class = ProductPriceSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filterset_fields = ['product', ]
+    filterset_fields = ['product', 'heat' ]
 
 
 
@@ -76,6 +76,8 @@ class SessionViewSet(ModelViewSet):
 class ViewOrderViewSet(ModelViewSet):
     queryset = Order.objects.order_by('pk')
     serializer_class = ViewOrderSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['member', ]
 
 class ViewSessionViewSet(ModelViewSet):
     queryset = Session.objects.order_by('pk')
