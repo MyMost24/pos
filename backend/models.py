@@ -51,7 +51,7 @@ class SweetLevel(models.Model):
 
 class Member(models.Model):
     name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=10, blank=True, null=True)
+    phone = models.CharField(max_length=10, blank=True, null=True, default="0")
 
     def __str__(self):
         return '{},{}'.format(self.name, self.phone)
