@@ -3,7 +3,8 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import ProductTypeSerializer, HeatLevelSerializer, ProductSerializer,\
     ProductPriceSerializer, OrderDetailSerializer, SweetLevelSerializer, OrderSerializer,\
     MemberSerializer, SessionStatusSerializer, SessionSerializer, \
-    ViewOrderSerializer, ViewSessionSerializer, ViewProductSerializer, ViewOrderDetailSerializer
+    ViewOrderSerializer, ViewSessionSerializer, ViewProductSerializer, ViewOrderDetailSerializer,\
+    TestSessionOrderSerializer
 
 from .models import ProductType, HeatLevel, Product, ProductPrice, OrderDetail,  \
      SweetLevel, Order, Member, SessionStatus, Session
@@ -82,6 +83,8 @@ class ViewOrderViewSet(ModelViewSet):
 class ViewSessionViewSet(ModelViewSet):
     queryset = Session.objects.order_by('pk')
     serializer_class = ViewSessionSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    filterset_fields = ['status']
 
 
 class ViewProductViewSet(ModelViewSet):
@@ -91,3 +94,7 @@ class ViewProductViewSet(ModelViewSet):
 class ViewOrderDetailViewSet(ModelViewSet):
     queryset = OrderDetail.objects.order_by('pk')
     serializer_class = ViewOrderDetailSerializer
+
+class TestSessionOrderViewSet(ModelViewSet):
+    queryset = Order.objects.order_by('pk')
+    serializer_class = TestSessionOrderSerializer

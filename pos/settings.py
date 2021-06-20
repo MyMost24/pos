@@ -25,9 +25,6 @@ SECRET_KEY = 'django-insecure-o)nju74_y!#7^xdri)51r7zfy$r0e*mxep!f_1p&en1@+o3u2l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-CORS_ALLOW_ALL_ORIGINS = True
-SITE_ID = 1
 
 
 # Application definition
@@ -91,7 +88,9 @@ TEMPLATES = [
         },
     },
 ]
-
+ALLOWED_HOSTS = []
+CORS_ALLOW_ALL_ORIGINS = True
+SITE_ID = 1
 WSGI_APPLICATION = 'pos.wsgi.application'
 
 
@@ -130,7 +129,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Bangkok'
 
 USE_I18N = True
 

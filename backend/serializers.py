@@ -54,12 +54,7 @@ class OrderDetailSerializer(ModelSerializer):
         model = OrderDetail
         fields = '__all__'
 
-    def get_named(self,obj):
-        try:
-            type = ProductType.objects.get(id=obj.type_id)
-            return type.name
-        except:
-            return None
+
 
 
 class SweetLevelSerializer(ModelSerializer):
@@ -81,13 +76,6 @@ class MemberSerializer(ModelSerializer):
     class Meta:
         model = Member
         fields = '__all__'
-
-    def get_phone(self,obj):
-        try:
-            phone = Member.objects.get(id=obj.phone_member)
-            return phone.name
-        except:
-            return None
 
 
 class SessionStatusSerializer(ModelSerializer):
@@ -130,6 +118,26 @@ class ViewOrderSerializer(ModelSerializer):
     class Meta:
         model = Order
         fields = '__all__'
+
+
+
+class TestSessionOrderSerializer(ModelSerializer):
+    product_name = SerializerMethodField()
+    topping_name = SerializerMethodField()
+    sweet_name = SerializerMethodField()
+
+    class Meta:
+        model = Order
+        fields = '__all__'
+
+    def get_product_name(self, obj):
+        try:
+            product = ProductPrice.objects.get(id=obj.product_id)
+            return product.product_named
+        except:
+            return None
+
+
 
 
 class ViewSessionSerializer(ModelSerializer):
