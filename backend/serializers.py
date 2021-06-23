@@ -119,27 +119,6 @@ class ViewOrderSerializer(ModelSerializer):
         model = Order
         fields = '__all__'
 
-
-
-class TestSessionOrderSerializer(ModelSerializer):
-    product_name = SerializerMethodField()
-    topping_name = SerializerMethodField()
-    sweet_name = SerializerMethodField()
-
-    class Meta:
-        model = Order
-        fields = '__all__'
-
-    def get_product_name(self, obj):
-        try:
-            product = ProductPrice.objects.get(id=obj.product_id)
-            return product.product_named
-        except:
-            return None
-
-
-
-
 class ViewSessionSerializer(ModelSerializer):
     member = MemberSerializer(read_only=True)
     order = ViewOrderSerializer(read_only=True, many=True)
@@ -148,4 +127,5 @@ class ViewSessionSerializer(ModelSerializer):
     class Meta:
         model = Session
         fields = '__all__'
+
 
