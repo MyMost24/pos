@@ -28,6 +28,7 @@ class ProductPrice(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     heat = models.ForeignKey(HeatLevel, on_delete=models.CASCADE, null=True, blank=True)
     price = models.IntegerField()
+    time = models.IntegerField()
 
     def __str__(self):
         return  '{},{}'.format(self.product.name, self.heat.name)
@@ -51,7 +52,7 @@ class SweetLevel(models.Model):
 
 class Member(models.Model):
     name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=10, blank=True, null=True, default="0")
+    phone = models.CharField(max_length=10, blank=True, null=True)
 
     def __str__(self):
         return '{},{}'.format(self.name, self.phone)
