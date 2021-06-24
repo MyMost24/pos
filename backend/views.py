@@ -30,6 +30,11 @@ class ProductViewSet(ModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = ['type', ]
 
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
+
+
 class ProductPriceViewSet(ModelViewSet):
     queryset = ProductPrice.objects.order_by('pk')
     serializer_class = ProductPriceSerializer
@@ -43,6 +48,10 @@ class OrderDetailViewSet(ModelViewSet):
     serializer_class = OrderDetailSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     filterset_fields = ['type',]
+
+    def update(self, request, *args, **kwargs):
+        kwargs['partial'] = True
+        return super().update(request, *args, **kwargs)
 
 
 class SweetLevelViewSet(ModelViewSet):
