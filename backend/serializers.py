@@ -28,6 +28,7 @@ class ProductSerializer(ModelSerializer):
 class ProductPriceSerializer(ModelSerializer):
     heat_named = SerializerMethodField()
     product_named = SerializerMethodField()
+    type_id = SerializerMethodField()
     class Meta:
         model = ProductPrice
         fields = '__all__'
@@ -39,7 +40,12 @@ class ProductPriceSerializer(ModelSerializer):
         except:
             return None
 
-
+    def get_type_id(self, obj):
+        try:
+            product = Product.objects.get(id=obj.product_id)
+            return product.type.id
+        except:
+            return None
     def get_heat_named(self, obj):
         try:
             heat = HeatLevel.objects.get(id=obj.heat_id)
@@ -111,9 +117,9 @@ class ViewOrderDetailSerializer(ModelSerializer):
 
 
 class ViewOrderSerializer(ModelSerializer):
-    product = ProductPriceSerializer(read_only=True)
-    detail = OrderDetailSerializer(read_only=True, many=True)
-    sweetlevel = SweetLevelSerializer(read_only=True)
+    product = ProductPriceSerializer()
+    detail = OrderDetailSerializer(many=True)
+    sweetlevel = SweetLevelSerializer()
 
     class Meta:
         model = Order
