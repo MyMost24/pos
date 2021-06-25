@@ -1,3 +1,5 @@
+import django_filters
+from django_filters import FilterSet
 from rest_framework.viewsets import ModelViewSet
 
 from .serializers import ProductTypeSerializer, HeatLevelSerializer, ProductSerializer,\
@@ -47,7 +49,7 @@ class OrderDetailViewSet(ModelViewSet):
     queryset = OrderDetail.objects.order_by('pk')
     serializer_class = OrderDetailSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filterset_fields = ['type',]
+    filterset_fields = ['type']
 
     def update(self, request, *args, **kwargs):
         kwargs['partial'] = True
@@ -59,9 +61,16 @@ class SweetLevelViewSet(ModelViewSet):
     serializer_class = SweetLevelSerializer
 
 
+class EntryFilter(FilterSet):
+    m = django_filters.NumberFilter(field_name='create_at', lookup_expr='month')
+    y = django_filters.NumberFilter(field_name='create_at', lookup_expr='year')
+
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.order_by('pk')
     serializer_class = OrderSerializer
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter)
+    # filterset_fields = ['create_at']
+    filter_class = EntryFilter
 
 
 class MemberViewSet(ModelViewSet):
@@ -87,7 +96,7 @@ class ViewOrderViewSet(ModelViewSet):
     queryset = Order.objects.order_by('pk')
     serializer_class = ViewOrderSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filterset_fields = ['member', ]
+    filter_class = EntryFilter
 
 class ViewSessionViewSet(ModelViewSet):
     queryset = Session.objects.order_by('pk')
